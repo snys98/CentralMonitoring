@@ -1,0 +1,154 @@
+﻿<Window x:Class="CMS.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:CMS.Client"
+        xmlns:views="clr-namespace:CMS.Client.Views"
+        xmlns:viewModels="clr-namespace:CMS.Client.ViewModels"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        mc:Ignorable="d"
+        Title="XX中央监护系统" Height="768" Width="1366"
+        DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MainViewModel}" ResizeMode="NoResize"
+        WindowState="Maximized" WindowStyle="None"
+        Style="{StaticResource {x:Type Window}}">
+    <Window.Resources>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--顶部标题栏-->
+        <Grid Grid.Row="0">
+            <TextBlock TextAlignment="Center" Style="{StaticResource {x:Type TextBlock}}" FontSize="20"
+                       Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat={StaticResource ShortTimeFormat}}">
+            </TextBlock>
+        </Grid>
+        <!--主体停靠体部分-->
+        <xcad:DockingManager x:Name="DockingManager" Grid.Row="1" AnchorablesSource="{Binding MonitorContainers}">
+            <!--MonitorContainer的Title-->
+            <xcad:DockingManager.LayoutItemContainerStyleSelector>
+                <local:PanelStyleSelector>
+                    <local:PanelStyleSelector.MonitorContainerStyle>
+                        <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
+                            <Setter Property="Title"
+                                    Value="{Binding Path=(xcad:LayoutAnchorableItem.Model).(viewModels:MonitorContainerViewModel.Name)}" />
+                            <Setter Property="HideCommand"
+                                    Value="{Binding Path=(xcad:LayoutAnchorableItem.Model).(viewModels:MonitorContainerViewModel.Close)}">
+                            </Setter>
+                        </Style>
+                    </local:PanelStyleSelector.MonitorContainerStyle>
+                </local:PanelStyleSelector>
+            </xcad:DockingManager.LayoutItemContainerStyleSelector>
+            <!--MonitorContainer的Panel-->
+            <xcad:DockingManager.LayoutItemTemplateSelector>
+                <local:PanelTemplateSelector>
+                    <local:PanelTemplateSelector.MonitorContainerTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:MonitorContainerViewModel}">
+                            <ListBox ItemsSource="{Binding Path=Monitors}" Name="MonitorsListBox"
+                                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl HorizontalContentAlignment="Stretch"
+                                                        VerticalContentAlignment="Stretch">
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=IsMonitoring}" Value="False">
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <Button Content="点击新建监视" Command="{Binding Path=AttachMonitor}"
+                                                                CommandParameter="{Binding }">
+                                                                    </Button>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=IsMonitoring}" Value="True">
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <views:MonitorView DataContext="{Binding }"></views:MonitorView>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="{Binding ColumeCount}" Rows="{Binding RowCount}"></UniformGrid>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </DataTemplate>
+                    </local:PanelTemplateSelector.MonitorContainerTemplate>
+                </local:PanelTemplateSelector>
+            </xcad:DockingManager.LayoutItemTemplateSelector>
+            <xcad:DockingManager.Theme>
+                <xcad:Vs2013DarkTheme />
+            </xcad:DockingManager.Theme>
+            <xcad:LayoutRoot>
+                <xcad:LayoutRoot.BottomSide>
+                    <xcad:LayoutAnchorSide>
+                        <xcad:LayoutAnchorGroup>
+                            <xcad:LayoutAnchorable Title="病床监控详情" CanAutoHide="False" CanHide="False">
+                                <!--TODO:应该和MonitorContainer里面选中的Monitor同步-->
+                                <Grid DataContext="{Binding ElementName=MonitorsListBox,Path=SelectedItem}">
+                                    <TextBlock Text="{Binding (viewModels:MonitorViewModel.BedNum)}"></TextBlock>
+                                </Grid>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorGroup>
+                    </xcad:LayoutAnchorSide>
+                </xcad:LayoutRoot.BottomSide>
+                <xcad:LayoutPanel Orientation="Vertical">
+                    <xcad:LayoutAnchorablePaneGroup Orientation="Horizontal">
+                        <xcad:LayoutAnchorablePane />
+                    </xcad:LayoutAnchorablePaneGroup>
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Menu Grid.Column="0" Style="{StaticResource {x:Type Menu}}">
+                <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="监控管理">
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="添加监控页"
+                              Command="{Binding AddMonitorContainer}">
+                    </MenuItem>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="修改监控"></MenuItem>
+                    <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}"></Separator>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="其他"></MenuItem>
+                </MenuItem>
+                <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="病人管理">
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="接收病人"></MenuItem>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="病人历史回顾"></MenuItem>
+                    <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}"></Separator>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="其他"></MenuItem>
+                </MenuItem>
+                <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="设备管理">
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="接收设备"></MenuItem>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="移除设备"></MenuItem>
+                    <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}"></Separator>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="其他"></MenuItem>
+                </MenuItem>
+                <MenuItem Style="{StaticResource {x:Type MenuItem}}" Header="选项">
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Click="ToggleTheme_OnClick" Header="切换主题"></MenuItem>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Command="{Binding OpenSettings}" Header="系统设置"></MenuItem>
+                    <MenuItem Style="{StaticResource {x:Type MenuItem}}" Click="Close_OnClick" Header="退出系统"></MenuItem>
+                </MenuItem>
+            </Menu>
+            <TextBlock Grid.Column="1" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Style="{StaticResource {x:Type TextBlock}}"
+                       Text="{Binding Source={x:Static sys:DateTime.Now},StringFormat={StaticResource RightCornerTimeFormat}}">
+            </TextBlock>
+        </Grid>
+    </Grid>
+</Window>

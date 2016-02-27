@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="CMS.Client.Views.MonitorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:local="clr-namespace:CMS.Client.Views"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:viewModels="clr-namespace:CMS.Client.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="600" DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MonitorViewModel}"
+             Loaded="MonitorView_OnLoaded">
+    <UserControl.Resources>
+        <!--<local:Wave2PlotModelConverter x:Key="Wave2PlotModelConverter" />-->
+        <!--<local:WaveValues2DataPointsConverter x:Key="WaveValues2DataPointsConverter" />-->
+    </UserControl.Resources>
+    <Grid Name="ControlGrid" Visibility="{Binding IsMonitoring,Converter={StaticResource Bool2VisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <local:WaveSimulatorView Grid.Column="0"></local:WaveSimulatorView>
+        <local:RealtimeInfoView Grid.Column="1"></local:RealtimeInfoView>
+    </Grid>
+</UserControl>

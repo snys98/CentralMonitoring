@@ -1,0 +1,19 @@
+目录结构说明：
+Client           ---------------监护系统客户端程序
+Database         ---------------数据库创建脚本
+Models           ---------------实体对象
+Services         ---------------中央服务
+Solution Items   ---------------方案杂项文件
+Tray             ---------------设备数据采集托盘
+
+
+项目说明：
+CMS.Client					 ----------------监护系统客户端主程序
+CMS.Database.Scripts		 ----------------数据库创建脚本，里面新增时按脚本类型放入对应文件夹
+CMS.Database.Provider        ----------------数据库交互实现
+CMS.Models.DB                ----------------数据库到对象实体映射
+CMS.Models.DTO               ----------------业务数据传输对象
+CMS.DistributionService.DefaultInstance -----中央服务默认实现
+CMS.DistributionService.Host ----------------中央服务承载工具
+CMS.DistributionService.Interface -----------中央分发服务接口定义
+CMS.Tray.Main                ----------------设备采集托盘程序主程序

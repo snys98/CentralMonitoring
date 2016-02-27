@@ -1,0 +1,20 @@
+﻿<Application x:Class="CMS.Client.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CMS.Client"
+             xmlns:viewModels="clr-namespace:CMS.Client.ViewModels"
+             xmlns:common="clr-namespace:CMS.Client.Common"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source= "Themes/Styles.xaml"/>
+                <ResourceDictionary Source="Common/CustomStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <viewModels:ViewModelLocator x:Key="ViewModelLocator"></viewModels:ViewModelLocator>
+        </ResourceDictionary>
+        
+    </Application.Resources>
+</Application>
