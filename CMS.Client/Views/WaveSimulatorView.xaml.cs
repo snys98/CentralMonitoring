@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,16 +23,25 @@ namespace CMS.Client.Views
     /// </summary>
     public partial class WaveSimulatorView : UserControl
     {
+
+
+        //public WaveSpeed WaveSpeed
+        //{
+        //    get { return (WaveSpeed)GetValue(MyPropertyProperty); }
+        //    set { SetValue(MyPropertyProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty MyPropertyProperty =
+        //    DependencyProperty.Register("WaveSpeed", typeof(WaveSpeed), typeof(WaveSimulatorView), new PropertyMetadata(0));
+
+
         public WaveSimulatorView()
         {
             InitializeComponent();
         }
-
-        private void WaveSimulatorView_OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as WaveSimulatorViewModel).Cleanup();
-        }
     }
+
 
     public class BeatToScaleConverter : IValueConverter
     {

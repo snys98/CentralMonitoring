@@ -9,7 +9,7 @@
     <!--Converters-->
     <common:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"></common:Bool2VisibilityConverter>
     <common:BoolInverseConverter x:Key="BoolInverseConverter"></common:BoolInverseConverter>
-    <common:ChainConverterGroup x:Key="CommonConverters"></common:ChainConverterGroup>
+    <common:ChainConverterGroup x:Key="ChainConverterGroup"></common:ChainConverterGroup>
 
     <!--Colors-->
     <Color x:Key="WindowBackgroundColor">#444444</Color>

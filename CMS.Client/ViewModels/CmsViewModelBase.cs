@@ -11,8 +11,15 @@ using GalaSoft.MvvmLight.Command;
 
 namespace CMS.Client.ViewModels
 {
-    public class CmsViewModelBase : ViewModelBase
+    public abstract class CmsViewModelBase<T> : ViewModelBase where T :IDataService
     {
-        
+        private T _dataService;
+
+        protected CmsViewModelBase(T dataService)
+        {
+            this._dataService = dataService;
+        }
+
+        public T DataService => _dataService;
     }
 }

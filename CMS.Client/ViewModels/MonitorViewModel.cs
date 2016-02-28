@@ -16,13 +16,9 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace CMS.Client.ViewModels
 {
-    public class MonitorViewModel:CmsViewModelBase
+    public class MonitorViewModel:CmsViewModelBase<MonitorDataService>
     {
-        private RelayCommand<MonitorViewModel> _attachMonitor = new RelayCommand<MonitorViewModel>((vm) =>
-        {
-            //SimpleIoc.Default.Register<MonitorViewModel>(() => vm,"Attach");
-            CreateMonitorDialog dialog = new CreateMonitorDialog(vm);
-        });
+        private RelayCommand _attachMonitor;
 
         private bool _isMonitoring = false;
 
@@ -40,10 +36,18 @@ namespace CMS.Client.ViewModels
 
         public ICommand AttachMonitor => _attachMonitor;
 
-        public MonitorViewModel(IDataService dataService)
+        public MonitorViewModel(MonitorDataService dataService)
+            :base(dataService)
         {
+            _attachMonitor = new RelayCommand(() =>
+            {
+
+                //SimpleIoc.Default.Register<MonitorViewModel>(() => vm,"Attach");
+                //CreateMonitorDialog dialog = new CreateMonitorDialog(vm);
+                this.IsMonitoring = true;
+            });
             this.BedNum = "Hehe";
-            var wave = new WaveSimulatorViewModel(ServiceLocator.Current.GetInstance<IDataService>());
+            var wave = new WaveSimulatorViewModel(ServiceLocator.Current.GetInstance<WaveSimulatorDataService>());
             //wave.Values.Add(new WaveValue() { ReceiveTime = DateTime.Now, Value = 0.8 });    
             WaveViewModels.Add(wave);
             

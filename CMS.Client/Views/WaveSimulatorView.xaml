@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CMS.Client.Views"
              xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
+             xmlns:viewModels="clr-namespace:CMS.Client.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             DataContext="{Binding Source={StaticResource ViewModelLocator},Path=WaveSimulatorViewModel}"
-              Unloaded="WaveSimulatorView_OnUnloaded">
+             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance viewModels:WaveSimulatorViewModel}"
+             >
     <UserControl.Resources>
         <Style TargetType="s:RenderSurfaceBase">
             <Setter Property="Effect">
@@ -22,7 +22,7 @@
     <Grid>
 
         <!-- Define the chart with databindings to DataSet, X and Y VisibleRange -->
-        <s:SciChartSurface s:ThemeManager.Theme="ExpressionDark" RenderPriority="Low">
+        <s:SciChartSurface s:ThemeManager.Theme="ExpressionDark" RenderPriority="Low" >
 
             <s:SciChartSurface.RenderableSeries>
                 <s:FastLineRenderableSeries DataSeries="{Binding CurEcgDataSeries}" SeriesColor="#FFB3E8F6"
@@ -32,12 +32,12 @@
             </s:SciChartSurface.RenderableSeries>
 
             <s:SciChartSurface.YAxis>
-                <s:NumericAxis AxisTitle="Voltage (mV)" MaxAutoTicks="5" DrawMinorGridLines="True" DrawMinorTicks="False"
+                <s:NumericAxis MaxAutoTicks="5" DrawMinorGridLines="True" DrawMinorTicks="False" DrawMajorTicks="False" DrawLabels="False"
                                VisibleRange="{Binding YVisibleRange}" />
             </s:SciChartSurface.YAxis>
             <s:SciChartSurface.XAxis>
                 <s:NumericAxis MaxAutoTicks="5" DrawMinorGridLines="True" DrawMinorTicks="False" DrawMajorTicks="False" DrawLabels="False"
-                               AnimatedVisibleRange="{Binding XVisibleRange}" />
+                               VisibleRange="{Binding XVisibleRange}" />
             </s:SciChartSurface.XAxis>
 
         </s:SciChartSurface>

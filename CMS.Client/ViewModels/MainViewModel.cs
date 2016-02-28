@@ -10,7 +10,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace CMS.Client.ViewModels
 {
-    public class MainViewModel:CmsViewModelBase
+    public class MainViewModel:CmsViewModelBase<MainDataService>
     {
         private static MainViewModel _instance = null;
         private static readonly object SyncRoot = new object();
@@ -41,7 +41,7 @@ namespace CMS.Client.ViewModels
                     {
                         if (null == _instance)
                         {
-                            _instance = new MainViewModel(SimpleIoc.Default.GetInstance<IDataService>());
+                            _instance = new MainViewModel(SimpleIoc.Default.GetInstance<MainDataService>());
                         }
                     }
                     return _instance;
@@ -52,10 +52,11 @@ namespace CMS.Client.ViewModels
 
         public ICommand OpenSettings => _openSettingsCommand;
 
-        private MainViewModel(IDataService dataService)
+        private MainViewModel(MainDataService dataService)
+            :base(dataService)
         {
 
-            dataService.GenTestData(this);
+            this.MonitorContainers = DataService.GenTestData();
             //= dataService.Retrive<MonitorViewModel>() as ObservableCollection<MonitorViewModel>;
             _openSettingsCommand = new RelayCommand(()=>{});
         }

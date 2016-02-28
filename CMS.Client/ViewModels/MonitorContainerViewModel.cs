@@ -13,9 +13,8 @@ using GalaSoft.MvvmLight.Command;
 
 namespace CMS.Client.ViewModels
 {
-    public class MonitorContainerViewModel:CmsViewModelBase
+    public class MonitorContainerViewModel:CmsViewModelBase<MonitorContainerDataService>
     {
-        private IDataService _dataService;
         private int _rowCount = 2;
         private int _columeCount = 3;
         private readonly RelayCommand _closeCommand;
@@ -38,11 +37,12 @@ namespace CMS.Client.ViewModels
         public string Name => "哈哈";
         public ObservableCollection<MonitorViewModel> Monitors { get; set; } = new ObservableCollection<MonitorViewModel>();
 
-        public MonitorContainerViewModel(IDataService dataService)
+        public MonitorContainerViewModel(MonitorContainerDataService dataService)
+            :base(dataService)
         {
             _closeCommand = new RelayCommand(this.Cleanup);
-            this._dataService = dataService;
-            _dataService.GenTestData(this);
+            //this._dataService = dataService;
+            this.Monitors = DataService.GenTestData();
         }
         
         public override void Cleanup()

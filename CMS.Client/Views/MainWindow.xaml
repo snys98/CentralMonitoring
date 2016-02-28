@@ -1,4 +1,4 @@
-﻿<Window x:Class="CMS.Client.MainWindow"
+﻿<Window x:Class="CMS.Client.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,6 +8,7 @@
         xmlns:views="clr-namespace:CMS.Client.Views"
         xmlns:viewModels="clr-namespace:CMS.Client.ViewModels"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:common="clr-namespace:CMS.Client.Common"
         mc:Ignorable="d"
         Title="XX中央监护系统" Height="768" Width="1366"
         DataContext="{Binding Source={StaticResource ViewModelLocator},Path=MainViewModel}" ResizeMode="NoResize"
@@ -29,55 +30,60 @@
             </TextBlock>
         </Grid>
         <!--主体停靠体部分-->
-        <xcad:DockingManager x:Name="DockingManager" Grid.Row="1" AnchorablesSource="{Binding MonitorContainers}">
+        <xcad:DockingManager x:Name="DockingManager" Grid.Row="1" DocumentsSource="{Binding MonitorContainers}">
             <!--MonitorContainer的Title-->
             <xcad:DockingManager.LayoutItemContainerStyleSelector>
-                <local:PanelStyleSelector>
-                    <local:PanelStyleSelector.MonitorContainerStyle>
-                        <Style TargetType="{x:Type xcad:LayoutAnchorableItem}">
+                <views:PanelStyleSelector>
+                    <views:PanelStyleSelector.MonitorContainerStyle>
+                        <Style TargetType="{x:Type xcad:LayoutDocumentItem}">
                             <Setter Property="Title"
-                                    Value="{Binding Path=(xcad:LayoutAnchorableItem.Model).(viewModels:MonitorContainerViewModel.Name)}" />
-                            <Setter Property="HideCommand"
+                                    Value="{Binding Path=(xcad:LayoutDocumentItem.Model).(viewModels:MonitorContainerViewModel.Name)}" />
+                            <!--<Setter Property="HideCommand"
                                     Value="{Binding Path=(xcad:LayoutAnchorableItem.Model).(viewModels:MonitorContainerViewModel.Close)}">
-                            </Setter>
+                            </Setter>-->
                         </Style>
-                    </local:PanelStyleSelector.MonitorContainerStyle>
-                </local:PanelStyleSelector>
+                    </views:PanelStyleSelector.MonitorContainerStyle>
+                </views:PanelStyleSelector>
             </xcad:DockingManager.LayoutItemContainerStyleSelector>
             <!--MonitorContainer的Panel-->
             <xcad:DockingManager.LayoutItemTemplateSelector>
-                <local:PanelTemplateSelector>
-                    <local:PanelTemplateSelector.MonitorContainerTemplate>
+                <views:PanelTemplateSelector>
+                    <views:PanelTemplateSelector.MonitorContainerTemplate>
                         <DataTemplate DataType="{x:Type viewModels:MonitorContainerViewModel}">
                             <ListBox ItemsSource="{Binding Path=Monitors}" Name="MonitorsListBox"
                                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <ContentControl HorizontalContentAlignment="Stretch"
+                                    <DataTemplate DataType="{x:Type viewModels:MonitorViewModel}">
+                                        <views:MonitorView DataContext="{Binding }"/>
+                                        <!--<ContentControl HorizontalContentAlignment="Stretch"
                                                         VerticalContentAlignment="Stretch">
                                             <ContentControl.Style>
-                                                <Style TargetType="ContentControl">
+                                                <Style TargetType="{x:Type ContentControl}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Path=IsMonitoring}" Value="False">
-                                                            <Setter Property="Content">
+                                                            <Setter Property="ContentTemplate">
                                                                 <Setter.Value>
-                                                                    <Button Content="点击新建监视" Command="{Binding Path=AttachMonitor}"
+                                                                    <DataTemplate>
+                                                                        <Button Content="点击新建监视" Command="{Binding Path=AttachMonitor}"
                                                                 CommandParameter="{Binding }">
-                                                                    </Button>
+                                                                        </Button>
+                                                                    </DataTemplate>
                                                                 </Setter.Value>
                                                             </Setter>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Path=IsMonitoring}" Value="True">
-                                                            <Setter Property="Content">
+                                                            <Setter Property="ContentTemplate">
                                                                 <Setter.Value>
-                                                                    <views:MonitorView DataContext="{Binding }"></views:MonitorView>
+                                                                    <DataTemplate>
+                                                                        <views:MonitorView DataContext="{Binding }"></views:MonitorView>
+                                                                    </DataTemplate>
                                                                 </Setter.Value>
                                                             </Setter>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </ContentControl.Style>
-                                        </ContentControl>
+                                        </ContentControl>-->
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemsPanel>
@@ -87,8 +93,8 @@
                                 </ListBox.ItemsPanel>
                             </ListBox>
                         </DataTemplate>
-                    </local:PanelTemplateSelector.MonitorContainerTemplate>
-                </local:PanelTemplateSelector>
+                    </views:PanelTemplateSelector.MonitorContainerTemplate>
+                </views:PanelTemplateSelector>
             </xcad:DockingManager.LayoutItemTemplateSelector>
             <xcad:DockingManager.Theme>
                 <xcad:Vs2013DarkTheme />
@@ -107,9 +113,9 @@
                     </xcad:LayoutAnchorSide>
                 </xcad:LayoutRoot.BottomSide>
                 <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutAnchorablePaneGroup Orientation="Horizontal">
-                        <xcad:LayoutAnchorablePane />
-                    </xcad:LayoutAnchorablePaneGroup>
+                    <xcad:LayoutDocumentPaneGroup Orientation="Horizontal">
+                        <xcad:LayoutDocumentPane />
+                    </xcad:LayoutDocumentPaneGroup>
                 </xcad:LayoutPanel>
             </xcad:LayoutRoot>
         </xcad:DockingManager>

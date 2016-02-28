@@ -9,7 +9,7 @@ namespace CMS.Client.DataServices
     public interface IDataService
     {
 
-        dynamic GenTestData(CmsViewModelBase vm);
+        dynamic GenTestData();
 
     }
 }

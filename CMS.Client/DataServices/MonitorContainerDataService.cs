@@ -9,14 +9,14 @@ using GalaSoft.MvvmLight.Ioc;
 
 namespace CMS.Client.DataServices
 {
-    public class MainDataService:IDataService
+    public class MonitorContainerDataService:IDataService
     {
         public dynamic GenTestData()
         {
-            ObservableCollection<MonitorContainerViewModel> collection = new ObservableCollection<MonitorContainerViewModel>();
+            ObservableCollection<MonitorViewModel> collection = new ObservableCollection<MonitorViewModel>();
             for (int i = 0; i < 3; i++)
             {
-                collection.Add(new MonitorContainerViewModel(SimpleIoc.Default.GetInstance<MonitorContainerDataService>()));
+                collection.Add(new MonitorViewModel(SimpleIoc.Default.GetInstance<MonitorDataService>()));
             }
             return collection;
         }

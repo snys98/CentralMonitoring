@@ -19,6 +19,8 @@ namespace CMS.Models.DTO
         public DateTime ReceiveTime { get; set; }
         [DataMember]
         public WaveCategory Category { get; set; }
+        [DataMember]
+        public string BedId { get; set; }
     }
 
     public enum WaveCategory

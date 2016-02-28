@@ -56,16 +56,16 @@ namespace CMS.Client.Common
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool && targetType == typeof(bool))
+            if (value is bool)
             {
                 return !(bool)value;
             }
-            throw new ArgumentException("Invalid argument/return type. Expected argument: bool and return type: Visibility");
+            throw new ArgumentException("Invalid argument/return type. Expected argument: Visibility and return type: bool");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool && targetType == typeof(bool))
+            if (value is bool)
             {
                 return !(bool)value;
             }

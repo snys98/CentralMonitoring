@@ -11,10 +11,9 @@ using CMS.Models.DTO;
 
 namespace CMS.Client.ViewModels
 {
-    public class WaveSimulatorViewModel:CmsViewModelBase
+    public class WaveSimulatorViewModel:CmsViewModelBase<WaveSimulatorDataService>
     {
-        //TODO:与RealtimeInfo联动,使用公共Model
-        private Timer _timer;
+
         private IXyDataSeries<double, double> _series0 = new XyDataSeries<double, double>();
         private IXyDataSeries<double, double> _series1 = new XyDataSeries<double, double>() ;
         private IEnumerator<WaveValue> _waveValues;
@@ -30,12 +29,13 @@ namespace CMS.Client.ViewModels
 
         private const int TimerInterval = 20;
 
-        public WaveSimulatorViewModel(IDataService dataService)
+        public WaveSimulatorViewModel(WaveSimulatorDataService dataService)
+            :base(dataService)
         {
-            dataService.GenTestData(this);
+            _waveValues = (DataService.GenTestData() as IEnumerable<WaveValue>).GetEnumerator();
 
             // Fix chart range in Y-Direction
-            _timer = new Timer(TimerInterval) { AutoReset = true };
+            var _timer = new Timer(TimerInterval) { AutoReset = true };
             _timer.Elapsed += TimerElapsed;
             _timer.Start();
         }
@@ -113,8 +113,8 @@ namespace CMS.Client.ViewModels
 
         public override void Cleanup()
         {
-            this._timer.Stop();
-            this._timer.Close();
+            //this._timer.Stop();
+            //this._timer.Close();
         }
     }
     public enum WaveSpeed

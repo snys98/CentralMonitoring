@@ -13,29 +13,11 @@ namespace CMS.Client.Views
     /// <summary>
     /// CMS.Client.xaml 的交互逻辑
     /// </summary>
-    public partial class MonitorView : UserControl
+    public partial class MonitorView : ContentControl
     {
         public MonitorView()
         {
             InitializeComponent();
         }
-
-        private void MonitorView_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
     }
-    //[ValueConversion(typeof(ObservableCollection<WaveValue>), typeof(ObservableCollection<DataPoint>))]
-    //public class WaveValues2DataPointsConverter : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        return (value as ObservableCollection<WaveValue>).Select(item=>new DataPoint(item.ReceiveTime.ToOADate(),item.Value));
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
 }

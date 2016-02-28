@@ -13,15 +13,14 @@ namespace CMS.Client.ViewModels
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<MainViewModel>(() => MainViewModel.Current);
-            SimpleIoc.Default.Register<MonitorViewModel>();
-            SimpleIoc.Default.Register<WaveSimulatorViewModel>();
             //todo,泛型DataService
-            SimpleIoc.Default.Register<IDataService, DataService>();
+            SimpleIoc.Default.Register<MainDataService, MainDataService>();
+            SimpleIoc.Default.Register<MonitorDataService, MonitorDataService>();
+            SimpleIoc.Default.Register<MonitorContainerDataService, MonitorContainerDataService>();
+            SimpleIoc.Default.Register<WaveSimulatorDataService, WaveSimulatorDataService>();
         }
-        public string GetByConverterWithKey => String.Empty;
+
         public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
-        public MonitorViewModel MonitorViewModel => ServiceLocator.Current.GetInstance<MonitorViewModel>();
-        public WaveSimulatorViewModel WaveSimulatorViewModel => ServiceLocator.Current.GetInstance<WaveSimulatorViewModel>();
 
         //public MonitorViewModel MonitorViewModel => ServiceLocator.Current.GetInstance<MonitorViewModel>();
 
