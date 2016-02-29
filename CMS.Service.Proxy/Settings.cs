@@ -11,10 +11,8 @@ namespace CMS.Service.Proxy
     {
         static Settings()
         {
-            ServerIP = ConfigurationManager.AppSettings["ServerIP"];
-            ServerPort = ConfigurationManager.AppSettings["ServerPort"];
+            WcfBaseAddress = ConfigurationManager.AppSettings["WcfBaseAddress"];
         }
-        public static string ServerIP { get; set; }
-        public static string ServerPort { get; set; }
+        public static string WcfBaseAddress { get; set; }        
     }
 }

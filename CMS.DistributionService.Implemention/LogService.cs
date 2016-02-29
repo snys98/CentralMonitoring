@@ -6,9 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using CMS.Models.DTO;
 using CMS.Business.Interface;
+using System.ServiceModel;
 
 namespace CMS.DistributionService.Implemention
 {
+
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
     public class LogService : ILogService
     {
         public void SaveLog(SystemLog log)

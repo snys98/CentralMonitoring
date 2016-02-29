@@ -15,7 +15,8 @@
         WindowState="Maximized" WindowStyle="None"
         Style="{StaticResource {x:Type Window}}">
     <Window.Resources>
-
+        <!--<viewModels:MonitorViewModel x:Key="SelectedMonitorViewModel" x:Arguments="123">
+        </viewModels:MonitorViewModel>-->
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -51,39 +52,14 @@
                     <views:PanelTemplateSelector.MonitorContainerTemplate>
                         <DataTemplate DataType="{x:Type viewModels:MonitorContainerViewModel}">
                             <ListBox ItemsSource="{Binding Path=Monitors}" Name="MonitorsListBox"
-                                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                     HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                     SelectionMode="Single"
+                                     SelectedItem="{Binding SelectedMonitor, Mode=TwoWay}"
+                                     LostFocus="MonitorsListBox_OnLostFocus">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type viewModels:MonitorViewModel}">
-                                        <views:MonitorView DataContext="{Binding }"/>
-                                        <!--<ContentControl HorizontalContentAlignment="Stretch"
-                                                        VerticalContentAlignment="Stretch">
-                                            <ContentControl.Style>
-                                                <Style TargetType="{x:Type ContentControl}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=IsMonitoring}" Value="False">
-                                                            <Setter Property="ContentTemplate">
-                                                                <Setter.Value>
-                                                                    <DataTemplate>
-                                                                        <Button Content="点击新建监视" Command="{Binding Path=AttachMonitor}"
-                                                                CommandParameter="{Binding }">
-                                                                        </Button>
-                                                                    </DataTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Path=IsMonitoring}" Value="True">
-                                                            <Setter Property="ContentTemplate">
-                                                                <Setter.Value>
-                                                                    <DataTemplate>
-                                                                        <views:MonitorView DataContext="{Binding }"></views:MonitorView>
-                                                                    </DataTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ContentControl.Style>
-                                        </ContentControl>-->
+                                        <views:MonitorView DataContext="{Binding }" HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemsPanel>
@@ -103,11 +79,8 @@
                 <xcad:LayoutRoot.BottomSide>
                     <xcad:LayoutAnchorSide>
                         <xcad:LayoutAnchorGroup>
-                            <xcad:LayoutAnchorable Title="病床监控详情" CanAutoHide="False" CanHide="False">
-                                <!--TODO:应该和MonitorContainer里面选中的Monitor同步-->
-                                <Grid DataContext="{Binding ElementName=MonitorsListBox,Path=SelectedItem}">
-                                    <TextBlock Text="{Binding (viewModels:MonitorViewModel.BedNum)}"></TextBlock>
-                                </Grid>
+                            <xcad:LayoutAnchorable Title="病床监控详情" CanAutoHide="True" CanHide="False" CanClose="False" CanFloat="True">
+                                <TextBlock Text="{Binding SelectedMonitor.BedNum}"></TextBlock>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorGroup>
                     </xcad:LayoutAnchorSide>

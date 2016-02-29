@@ -7,30 +7,20 @@
              xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
              xmlns:viewModels="clr-namespace:CMS.Client.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance viewModels:WaveSimulatorViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300" d:DataContext="{d:DesignInstance local:WaveSimulatorView}"
+             Loaded="WaveSimulatorView_OnLoaded"
              >
     <UserControl.Resources>
-        <Style TargetType="s:RenderSurfaceBase">
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect BlurRadius="5" ShadowDepth="0" Color="#FFB3E8F6" />
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <local:BeatToScaleConverter x:Key="BeatToScaleConverter" />
+        
     </UserControl.Resources>
     <Grid>
-
-        <!-- Define the chart with databindings to DataSet, X and Y VisibleRange -->
         <s:SciChartSurface s:ThemeManager.Theme="ExpressionDark" RenderPriority="Low" >
-
             <s:SciChartSurface.RenderableSeries>
                 <s:FastLineRenderableSeries DataSeries="{Binding CurEcgDataSeries}" SeriesColor="#FFB3E8F6"
                                             StrokeThickness="1" />
                 <s:FastLineRenderableSeries DataSeries="{Binding PastEcgDataSeries}" SeriesColor="#FFB3E8F6" Opacity="0.6"
                                             StrokeThickness="1" />
             </s:SciChartSurface.RenderableSeries>
-
             <s:SciChartSurface.YAxis>
                 <s:NumericAxis MaxAutoTicks="5" DrawMinorGridLines="True" DrawMinorTicks="False" DrawMajorTicks="False" DrawLabels="False"
                                VisibleRange="{Binding YVisibleRange}" />
@@ -39,32 +29,6 @@
                 <s:NumericAxis MaxAutoTicks="5" DrawMinorGridLines="True" DrawMinorTicks="False" DrawMajorTicks="False" DrawLabels="False"
                                VisibleRange="{Binding XVisibleRange}" />
             </s:SciChartSurface.XAxis>
-
         </s:SciChartSurface>
-
-        <!-- Create UI for the heatbeat and BPM overlay --><!--
-        <StackPanel Orientation="Horizontal" Margin="30,30">
-            <StackPanel.Effect>
-                <DropShadowEffect BlurRadius="5" ShadowDepth="0" Color="#FFB3E8F6" />
-            </StackPanel.Effect>
-
-            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Orientation="Horizontal">
-                <Canvas Name="layer1" Width="20" Height="20" Margin="12,34,10,0">
-                    <Canvas.RenderTransform>
-                        <ScaleTransform CenterX="-6" CenterY="-6"
-                                        ScaleX="{Binding IsBeat, Converter={StaticResource BeatToScaleConverter}}"
-                                        ScaleY="{Binding IsBeat, Converter={StaticResource BeatToScaleConverter}}" />
-                    </Canvas.RenderTransform>
-                    <Path Fill="#FFB0E6F4"
-                          Data="m 0 0 c -4 -4 -8.866933 -10.79431 -10 -15 0 0 0 -5 5 -5 5 0 5 5 5 5 0 0 0 -5 5 -5 5 0 5.242535 4.02986 5 5 -1 4 -6 11 -10 15 z">
-                    </Path>
-                </Canvas>
-                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Text="{Binding HeartRate}"
-                       Foreground="#FFB0E6F4" FontSize="36" FontWeight="Bold" FontFamily="ArialBlack" />
-                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Text="BPM" Foreground="#FFB0E6F4"
-                       FontSize="36" FontWeight="Bold" FontFamily="ArialBlack" />
-
-            </StackPanel>
-        </StackPanel>-->
     </Grid>
 </UserControl>

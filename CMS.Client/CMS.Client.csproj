@@ -88,6 +88,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\CommonConverters.cs" />
+    <Compile Include="Common\Extensions.cs" />
     <Compile Include="DataServices\MainDataService.cs" />
     <Compile Include="DataServices\MonitorContainerDataService.cs" />
     <Compile Include="DataServices\MonitorDataService.cs" />
@@ -186,9 +187,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\UIExtensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CMS.Models.DTO\CMS.Models.DTO.csproj">
       <Project>{1fca1584-185b-469a-98c8-bbf6df7f7150}</Project>

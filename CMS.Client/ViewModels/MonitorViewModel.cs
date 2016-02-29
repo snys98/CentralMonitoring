@@ -35,6 +35,7 @@ namespace CMS.Client.ViewModels
         public ObservableCollection<WaveSimulatorViewModel> WaveViewModels { get; set; } = new ObservableCollection<WaveSimulatorViewModel>();
 
         public ICommand AttachMonitor => _attachMonitor;
+        public bool IsSelected { get; set; }
 
         public MonitorViewModel(MonitorDataService dataService)
             :base(dataService)

@@ -46,7 +46,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDeviceService.cs" />
     <Compile Include="ILogService.cs" />
+    <Compile Include="IMonitorService.cs" />
+    <Compile Include="INotifyCallback.cs" />
+    <Compile Include="INotifyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

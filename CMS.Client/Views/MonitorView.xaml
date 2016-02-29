@@ -19,8 +19,14 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <local:WaveSimulatorView Grid.Column="0" DataContext="{Binding WaveViewModels[0]}"></local:WaveSimulatorView>
-            <local:RealtimeInfoView Grid.Column="1" DataContext="{Binding WaveViewModels[0]}"></local:RealtimeInfoView>
+            <ListBox ItemsSource="{Binding WaveViewModels}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:WaveSimulatorView DataContext="{Binding }"></local:WaveSimulatorView>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <local:RealtimeInfoView Grid.Column="1" DataContext="{Binding WaveViewModels}"></local:RealtimeInfoView>
         </Grid>
         <Button Content="点击新建监视" Command="{Binding AttachMonitor}">
             <Button.Visibility>

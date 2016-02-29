@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +20,7 @@ namespace CMS.Client.ViewModels
         private int _rowCount = 2;
         private int _columeCount = 3;
         private readonly RelayCommand _closeCommand;
+        private static MonitorViewModel _selectedMonitor;
 
 
         public int RowCount
@@ -37,12 +40,23 @@ namespace CMS.Client.ViewModels
         public string Name => "哈哈";
         public ObservableCollection<MonitorViewModel> Monitors { get; set; } = new ObservableCollection<MonitorViewModel>();
 
+        public static MonitorViewModel SelectedMonitor
+        {
+            get { return _selectedMonitor; }
+            set
+            {
+                _selectedMonitor = value;
+                MainViewModel.Current.SelectedMonitor = value;
+            }
+        }
+
         public MonitorContainerViewModel(MonitorContainerDataService dataService)
             :base(dataService)
         {
             _closeCommand = new RelayCommand(this.Cleanup);
             //this._dataService = dataService;
             this.Monitors = DataService.GenTestData();
+            
         }
         
         public override void Cleanup()

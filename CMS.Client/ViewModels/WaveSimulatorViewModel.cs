@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using Abt.Controls.SciChart;
 using Abt.Controls.SciChart.Model.DataSeries;
 using CMS.Client.DataServices;
+using CMS.Client.Views;
 using GalaSoft.MvvmLight;
 using CMS.Models.DTO;
 
@@ -143,5 +144,30 @@ namespace CMS.Client.ViewModels
         /// 100mm/s
         /// </summary>
         VeryFast = 4
+    }
+    public static class SimulatorExtensions
+    {
+        private static readonly Dictionary<WaveSpeed, Timer> Timers = new Dictionary<WaveSpeed, Timer>()
+        {
+            [WaveSpeed.VerySlow] = new Timer(100) { AutoReset = true },
+            [WaveSpeed.Slow] = new Timer(100) { AutoReset = true },
+            [WaveSpeed.Normal] = new Timer(100) { AutoReset = true },
+            [WaveSpeed.Fast] = new Timer(100) { AutoReset = true },
+            [WaveSpeed.VeryFast] = new Timer(100) { AutoReset = true },
+        };
+
+
+        public static Timer GetTimer(this WaveSpeed waveSpeed)
+        {
+            return Timers[waveSpeed];
+        }
+
+        static SimulatorExtensions()
+        {
+            foreach (var keyValuePair in Timers)
+            {
+                keyValuePair.Value.Start();
+            }
+        }
     }
 }

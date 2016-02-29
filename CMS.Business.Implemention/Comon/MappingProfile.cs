@@ -22,6 +22,7 @@ namespace CMS.Business.Implemention
         protected override void Configure()
         {
             this.CreateMap<SystemLog, SystemLogEntity>().ForMember(d => d.Level, opt => opt.MapFrom(s => s.Level));
+            this.CreateMap<SystemLogEntity, SystemLog>().ForMember(d => d.Level, opt => opt.MapFrom(s => s.Level));
         }
 
     }

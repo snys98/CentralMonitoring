@@ -36,6 +36,11 @@ namespace CMS.Client.Views
             }
             Themes.Reset();
         }
+
+        private void MonitorsListBox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as ListBox).SelectedItem = null;
+        }
     }
 
     public class PanelTemplateSelector : DataTemplateSelector

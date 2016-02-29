@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DistributionService.Interface
 {
-    [ServiceContract]
+    [ServiceContract(SessionMode = SessionMode.Required)]
     public interface ILogService
     {
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
@@ -22,6 +23,7 @@ namespace CMS.Client.ViewModels
         });
 
         private readonly ICommand _openSettingsCommand;
+        private MonitorViewModel _selectedMonitor;
 
         public ObservableCollection<MonitorContainerViewModel> MonitorContainers
         {
@@ -51,6 +53,13 @@ namespace CMS.Client.ViewModels
         }
 
         public ICommand OpenSettings => _openSettingsCommand;
+
+        public MonitorViewModel SelectedMonitor
+        {
+            get { return _selectedMonitor; }
+            set { Set(ref _selectedMonitor , value); }
+        }
+
 
         private MainViewModel(MainDataService dataService)
             :base(dataService)

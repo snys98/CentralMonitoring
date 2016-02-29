@@ -16,6 +16,20 @@ namespace ServerTest
                 s.SaveLog(new CMS.Models.DTO.SystemLog()
                 { Level = CMS.Models.DTO.LogLevel.Error, Content = "客户端调用" });
             });
+            CMS.Service.Proxy.Service.Use<IMonitorService>((s) =>
+            {
+                s.AddMonitor("01");
+            });
+            CMS.Service.Proxy.Service.Use<IMonitorService>((s) =>
+            {
+                s.AddMonitor("02");
+            });
+            NotifyCallback back = new NotifyCallback();
+            CMS.Service.Proxy.Service.RegisterDuplex<INotifyService, NotifyCallback>(back,
+                s =>
+                {
+                    s.Connect();
+                });
             Console.ReadLine();
         }
     }

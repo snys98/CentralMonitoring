@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,8 +14,9 @@ namespace CMS.DistributionService.Host
     {
         static void Main(string[] args)
         {
-    
+
             ServiceMapsSection serviceMaps = (ServiceMapsSection)System.Configuration.ConfigurationManager.GetSection("ServiceMaps");
+            string url = ConfigurationManager.AppSettings["WcfBaseAddress"];
             //Console.WriteLine(ServiceMaps.Services[0].Maps[0].Face);
             //先将程序集全部加载 
             Dictionary<string, string> loaded = new Dictionary<string, string>();
@@ -37,18 +39,24 @@ namespace CMS.DistributionService.Host
                  {
                      var itype = Type.GetType(serviceMaps.Services[i].Maps[j].Face + "," + face);
                      var type = Type.GetType(serviceMaps.Services[i].Maps[j].Real + "," + real);
-                     AddService(type, itype);
+                     AddService(type, itype, url);
                  }
              });
             Console.WriteLine("服务已启动");
             Console.ReadLine();
         }
 
-        private static void AddService(Type type, Type iType)
+        private static void AddService(Type type, Type iType, string url)
         {
             ServiceHost host = new ServiceHost(type);
             NetTcpBinding nb = new NetTcpBinding(SecurityMode.None);
-            host.AddServiceEndpoint(iType, nb, string.Concat("net.tcp://", "127.0.0.1", ":", 19527, "/", iType.Name));
+            nb.ReliableSession.InactivityTimeout = TimeSpan.FromDays(1);
+            nb.MaxBufferPoolSize = int.MaxValue;
+            nb.MaxBufferSize = int.MaxValue;
+            nb.MaxReceivedMessageSize = int.MaxValue;
+            nb.MaxConnections = 1000;      
+
+            host.AddServiceEndpoint(iType, nb, string.Concat(url, iType.Name));
             host.Open();
         }
     }
